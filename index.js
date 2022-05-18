@@ -1,10 +1,11 @@
-console.log("Instalacion de nodemon! para que recarge solo, usando el comando -nodemon index.js-");
-console.log("Para utilizar las variables del package.json hay que utilizar -npm run dev- para el caso de desarrollo");
-
-const express = require('express'); //Asi se hace la importacion en NODE
+const express = require('express'); //En NODE la importacion es con "require"
 
 //Crear el servidor/aplicacion de express
 const app = express();
+
+//Rutas
+//Defino que cualquier ruta que este en "./routes/auth" tendra primero el path "/api/auth"
+app.use( '/api/auth', require('./routes/auth') );
 
 //Creacion de peticion
 app.get('/', ( req, res ) => {  //La funcion recibe un request y una respuesta
