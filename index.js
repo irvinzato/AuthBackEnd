@@ -1,5 +1,8 @@
 const express = require('express'); //En NODE la importacion es con "require"
 const cors = require('cors');
+require('dotenv').config(); //Esto toma la configuracion por defecto del archivo ".env"
+
+//console.log( process.env ); llamado especial para ver la configuracion de env
 
 //Crear el servidor/aplicacion de express
 const app = express();
@@ -24,6 +27,7 @@ app.get('/', ( req, res ) => {  //La funcion recibe un request y una respuesta
 });
 
 //Para levantar la aplicacion en el puerto que quiera
-app.listen( 4000, () => {   //Funcion que se va a ejecutar cuando este levantado mi servidor
-    console.log(`Servidor corriendo en puerto ${ 4000 } `);
+//Ahora puedo utilizar las variables de mi "env" en lugar de ponerlo en duro, gracias al "require('dotenv').config()"
+app.listen( process.env.PORT, () => {   //Funcion que se va a ejecutar cuando este levantado mi servidor
+    console.log(`Servidor corriendo en puerto ${ process.env.PORT } `);
 });
