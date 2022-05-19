@@ -1,7 +1,14 @@
 const express = require('express'); //En NODE la importacion es con "require"
+const cors = require('cors');
 
 //Crear el servidor/aplicacion de express
 const app = express();
+
+//CORS
+app.use( cors() );
+
+//Lectura y parseo del body
+app.use( express.json() );
 
 //Rutas
 //Defino que cualquier ruta que este en "./routes/auth" tendra primero el path "/api/auth"
