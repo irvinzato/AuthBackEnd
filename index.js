@@ -7,6 +7,9 @@ require('dotenv').config(); //Esto toma la configuracion por defecto del archivo
 //Crear el servidor/aplicacion de express
 const app = express();
 
+//Directorio publico, cualquier persona que conoza el host podra ver
+app.use( express.static( 'public' ) );
+
 //CORS
 app.use( cors() );
 
@@ -16,15 +19,6 @@ app.use( express.json() );
 //Rutas
 //Defino que cualquier ruta que este en "./routes/auth" tendra primero el path "/api/auth"
 app.use( '/api/auth', require('./routes/auth') );
-
-//Creacion de peticion
-app.get('/', ( req, res ) => {  //La funcion recibe un request y una respuesta
-    res.json({
-        ok: true,
-        msg: 'Todo con exito',
-        id: 123
-    });
-});
 
 //Para levantar la aplicacion en el puerto que quiera
 //Ahora puedo utilizar las variables de mi "env" en lugar de ponerlo en duro, gracias al "require('dotenv').config()"
