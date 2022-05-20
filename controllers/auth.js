@@ -1,5 +1,7 @@
 const { response } = require('express');    //Exportacion para tener todos los metodos posibles en "res", por eso lo igualo a response
 const Usuario = require('../models/Usuario');   //La importacion es diferente por como lo exporte
+const bcrypt = require('bcryptjs');     //Para hacerle el hash a mis contraseñas(forma encriptada)
+const { generarJWT } = require('../helpers/jwt');
 
 const crearUsuario = async (req, res = response) => {
 
@@ -20,8 +22,11 @@ const crearUsuario = async (req, res = response) => {
         const dbUser = new Usuario( req.body );
 
         //Hash de contraseña
+        const salt = bcrypt.genSaltSync();
+        dbUser.password = bcrypt.hashSync( password, salt );
 
         //Generar Json Web Token(El que mandare a Angular)
+        const token = await generarJWT( dbUser.id, name );
 
         //Crear usuario en Base de Datos
         await dbUser.save();
@@ -29,8 +34,9 @@ const crearUsuario = async (req, res = response) => {
         //Generar respuesta exitosa
         return res.status(201).json({
             ok: true,
-            uid: dbUser.id,     //Me lo genera Mongo
+            uid: dbUser.id,     //El id me lo genera Mongo
             name: name,
+            token: token,
             msg: 'Creacion exitosa'
         });
 
