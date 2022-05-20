@@ -1,5 +1,5 @@
 //Creacion de DTO, Modelo de base de datos y regularmente siempre es en singular
-const { Schema } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const UsuarioSchema = Schema({
     name: { 
