@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth');
+const { validarCampos } = require('../middlewares/validar-campos'); //Tal cual es como un check personalizado
 
 const router = Router();
 
@@ -9,7 +10,8 @@ const router = Router();
 router.post( '/new', [
     check('name', 'El nombre es obligatorio y debe tener minimo 3 caracteres' ).not().isEmpty().isLength({ min: 3 }),
     check('email', 'El email es obligatorio' ).isEmail(),
-    check('password', 'La contraseña es obligatoria y requiere 6 caracteres minimo' ).isLength({ min: 6 })
+    check('password', 'La contraseña es obligatoria y requiere 6 caracteres minimo' ).isLength({ min: 6 }),
+    validarCampos
 ] , crearUsuario );    
 
 //Login de usuario
@@ -17,7 +19,8 @@ router.post( '/new', [
 //Primero ejecuta los middlewares y despues el controlador, cuando se pasa por el middlewares ahora tenemos un nuevo objeto que podemos usar en el controlador
 router.post( '/', [
     check('email', 'El email es obligatorio' ).isEmail(),
-    check('password', 'La contraseña es obligatoria y requiere 6 caracteres minimo' ).isLength({ min: 6 })
+    check('password', 'La contraseña es obligatoria y requiere 6 caracteres minimo' ).isLength({ min: 6 }),
+    validarCampos
 ] ,loginUsuario );
 
 //Validar y revalidar token

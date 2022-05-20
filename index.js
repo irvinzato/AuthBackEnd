@@ -1,11 +1,15 @@
 const express = require('express'); //En NODE la importacion es con "require"
 const cors = require('cors');
+const { dbConnection } = require('./db/config');
 require('dotenv').config(); //Esto toma la configuracion por defecto del archivo ".env"
 
 //console.log( process.env ); llamado especial para ver la configuracion de env
 
 //Crear el servidor/aplicacion de express
 const app = express();
+
+//Conexion a Base de Datos de MongoDB
+dbConnection();
 
 //Directorio publico, cualquier persona que conoza el host podra ver
 app.use( express.static( 'public' ) );
