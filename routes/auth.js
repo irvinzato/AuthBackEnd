@@ -2,6 +2,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth');
 const { validarCampos } = require('../middlewares/validar-campos'); //Tal cual es como un check personalizado
+const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
@@ -24,7 +25,7 @@ router.post( '/', [
 ] ,loginUsuario );
 
 //Validar y revalidar token
-router.get( '/renew', revalidarToken );
+router.get( '/renew', validarJWT , revalidarToken );
 
 
 //Para exportar y utilizar en otros archivos
