@@ -26,7 +26,7 @@ const crearUsuario = async (req, res = response) => {
         dbUser.password = bcrypt.hashSync( password, salt );
 
         //Generar Json Web Token(El que mandare a Angular)
-        const token = await generarJWT( dbUser.id, name );
+        const token = await generarJWT( dbUser.id, name, email );
 
         //Crear usuario en Base de Datos
         await dbUser.save();
@@ -36,6 +36,7 @@ const crearUsuario = async (req, res = response) => {
             ok: true,
             uid: dbUser.id,     //El id me lo genera Mongo
             name: name,
+            email: email,
             token: token,
             msg: 'Creacion exitosa'
         });
@@ -77,13 +78,14 @@ const loginUsuario = async (req, res = response) => {
         }
 
         //Todo fue valido, generar JWT
-        const token = await generarJWT( dbUser.id, dbUser.name );
+        const token = await generarJWT( dbUser.id, dbUser.name, dbUser.email );
 
         //Respusta del servicio, por defecto es status(200)
         return res.json({
             ok: true,
             uid: dbUser.id,
             name: dbUser.name,
+            email: dbUser.email,
             token,
             msg: 'Logeo exitoso'
         });
@@ -100,15 +102,16 @@ const loginUsuario = async (req, res = response) => {
 
 const revalidarToken = async (req, res = response) => {
     //Recibo los datos que extraje de mi middleware
-    const { uid, name } = req;
+    const { uid, name, email } = req;
 
     //generar nuevo token
-    const token = await generarJWT( uid, name );
+    const token = await generarJWT( uid, name, email );
 
     return res.json({
         ok: true,
         uid,
         name,
+        email,
         token,
         msg: 'Renew token exitoso /renew'
     });

@@ -17,11 +17,12 @@ const validarJWT = ( req, res = response, next ) => {
 
     try {
         //"process.env.SECRET_JWT_SEED" lo ocupamos para saber si ese token fue firmado con la misma llave
-        const { uid, name } = jwt.verify( token, process.env.SECRET_JWT_SEED );
-        console.log("verificacion exitosa, regresa el payload ", uid, name);
+        const { uid, name, email } = jwt.verify( token, process.env.SECRET_JWT_SEED );
+        console.log("verificacion exitosa, regresa el payload ", uid, name, email);
         //Para mandarle los datos de mi middleware a mi controlador
         req.uid = uid;
         req.name = name;
+        req.email = email;
 
     } catch (error) {
         return res.status(401).json({
