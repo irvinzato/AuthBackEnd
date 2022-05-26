@@ -1,10 +1,10 @@
 //Todo lo relacionado a la creacion y verificacion de Json Web Token
 const jwt = require('jsonwebtoken');
 
-const generarJWT = ( uid, name ) => {
+const generarJWT = ( uid, name, email ) => {
 
     //payload es la informacion que quiero que sea grabada en el JWT
-    const payload = { uid, name };
+    const payload = { uid, name, email };
 
     //Como el sign() no es una Promesa, se resuelve de manera ingeniosa
     return new Promise( ( resolve, reject ) => {
